@@ -9,35 +9,41 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        ZStack {
-            // MARK: - Background
-            Color.background
-                .ignoresSafeArea()
-            
-            Image("Background")
-                .resizable()
-                .ignoresSafeArea()
-            
-            Image("House")
-                .frame(maxHeight: .infinity, alignment: .top)
-                .padding(.top, 257)
-            
-            VStack(spacing: -10) {
-                Text("Monreal")
-                    .font(.largeTitle)
+        NavigationView {
+            ZStack {
+                // MARK: - Background
+                Color.background
+                    .ignoresSafeArea()
                 
-                VStack {
-                    Text(attributedString)
-                        .multilineTextAlignment(.center)
-                   
-                    Text("H:24°   L:18°")
-                        .font(.title3.weight(.semibold))
-                        .multilineTextAlignment(.center)
+                Image("Background")
+                    .resizable()
+                    .ignoresSafeArea()
+                
+                Image("House")
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 257)
+                
+                VStack(spacing: -10) {
+                    Text("Montreal")
+                        .font(.largeTitle)
+                    
+                    VStack {
+                        Text(attributedString)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("H:24°   L:18°")
+                            .font(.title3.weight(.semibold))
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    Spacer()
                 }
+                .foregroundColor(.white)
                 
-                Spacer()
+                // MARK - Tab Bar
+                TabBar(action: {})
             }
-            .foregroundColor(.white)
+            .navigationBarBackButtonHidden(true)
         }
     }
     
