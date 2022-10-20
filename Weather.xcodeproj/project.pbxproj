@@ -19,6 +19,7 @@
 		708F431B29019533000AAB59 /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F431A29019533000AAB59 /* ForecastView.swift */; };
 		708F431D29019A0C000AAB59 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F431C29019A0C000AAB59 /* Blur.swift */; };
 		708F432029019ECF000AAB59 /* BackgroundBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F431F29019ECF000AAB59 /* BackgroundBlur.swift */; };
+		708F43222901B45E000AAB59 /* InnerShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F43212901B45E000AAB59 /* InnerShadowModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		708F431A29019533000AAB59 /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = SOURCE_ROOT; };
 		708F431C29019A0C000AAB59 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Blur.swift; path = Weather/Blur.swift; sourceTree = SOURCE_ROOT; };
 		708F431F29019ECF000AAB59 /* BackgroundBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BackgroundBlur.swift; path = Weather/BackgroundBlur.swift; sourceTree = SOURCE_ROOT; };
+		708F43212901B45E000AAB59 /* InnerShadowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerShadowModifier.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				708F431F29019ECF000AAB59 /* BackgroundBlur.swift */,
+				708F43212901B45E000AAB59 /* InnerShadowModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				708F430E290163D5000AAB59 /* Extensions.swift in Sources */,
 				708F42F929015766000AAB59 /* WeatherApp.swift in Sources */,
 				708F431B29019533000AAB59 /* ForecastView.swift in Sources */,
+				708F43222901B45E000AAB59 /* InnerShadowModifier.swift in Sources */,
 				708F431229017C75000AAB59 /* TabBar.swift in Sources */,
 				708F4314290183ED000AAB59 /* Shapes.swift in Sources */,
 			);
