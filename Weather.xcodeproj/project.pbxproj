@@ -11,6 +11,8 @@
 		708F42FB29015766000AAB59 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F42FA29015766000AAB59 /* ContentView.swift */; };
 		708F42FD29015767000AAB59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708F42FC29015767000AAB59 /* Assets.xcassets */; };
 		708F430029015767000AAB59 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708F42FF29015767000AAB59 /* Preview Assets.xcassets */; };
+		708F430E290163D5000AAB59 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F430D290163D5000AAB59 /* Extensions.swift */; };
+		708F431029016494000AAB59 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F430F29016494000AAB59 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		708F42FA29015766000AAB59 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		708F42FC29015767000AAB59 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		708F42FF29015767000AAB59 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		708F430D290163D5000AAB59 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		708F430F29016494000AAB59 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +56,9 @@
 			isa = PBXGroup;
 			children = (
 				708F42F829015766000AAB59 /* WeatherApp.swift */,
-				708F42FA29015766000AAB59 /* ContentView.swift */,
+				708F4306290162F6000AAB59 /* View */,
+				708F4307290162FB000AAB59 /* Model */,
+				708F430829016302000AAB59 /* Utils */,
 				708F42FC29015767000AAB59 /* Assets.xcassets */,
 				708F42FE29015767000AAB59 /* Preview Content */,
 			);
@@ -65,6 +71,62 @@
 				708F42FF29015767000AAB59 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		708F4306290162F6000AAB59 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708F43092901630C000AAB59 /* Main */,
+				708F430A29016313000AAB59 /* Navigation */,
+				708F430B2901631B000AAB59 /* Detail */,
+				708F430C29016323000AAB59 /* Component */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708F4307290162FB000AAB59 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		708F430829016302000AAB59 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				708F430D290163D5000AAB59 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		708F43092901630C000AAB59 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				708F430F29016494000AAB59 /* HomeView.swift */,
+				708F42FA29015766000AAB59 /* ContentView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		708F430A29016313000AAB59 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		708F430B2901631B000AAB59 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		708F430C29016323000AAB59 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +200,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				708F42FB29015766000AAB59 /* ContentView.swift in Sources */,
+				708F431029016494000AAB59 /* HomeView.swift in Sources */,
+				708F430E290163D5000AAB59 /* Extensions.swift in Sources */,
 				708F42F929015766000AAB59 /* WeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
