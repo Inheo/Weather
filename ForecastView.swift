@@ -15,6 +15,17 @@ struct ForecastView: View {
         ScrollView {
             VStack(spacing: 0) {
                 SegmentedControl(selection: $selection)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(selection == 0 ? Forecast.hourly : Forecast.daily) { forecast in
+                            ForecastCard(forecast: forecast, period: selection == 0 ? .hourly : .daily)
+                                .transition(.offset(x: selection == 0 ? -430 : 430))
+                        }
+                    }
+                    .padding(.vertical, 20)
+                }
+                .padding(.horizontal, 20)
             }
         }
         .backgroundBlur(radius: 25, opaque: true)
