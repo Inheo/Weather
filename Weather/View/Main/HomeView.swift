@@ -38,6 +38,7 @@ struct HomeView: View {
                 // MARK: - Background
                 backgroundItems
                 
+                // MARK: - Weather Information
                 weatherInformation
                 
                 // MARK: - Bottom Sheet
@@ -64,6 +65,7 @@ struct HomeView: View {
         }
     }
     
+    // MARK: - properties
     var backgroundItems: some View {
         ZStack {
             Color.background
