@@ -26,6 +26,9 @@ struct ForecastView: View {
                     .padding(.vertical, 20)
                 }
                 .padding(.horizontal, 20)
+                
+                Image("Forecast Widgets")
+                    .opacity(translationTime)
             }
         }
         .backgroundBlur(radius: 25, opaque: true)
@@ -36,7 +39,7 @@ struct ForecastView: View {
                      offsetY: 1,
                      blurRadius: 0,
                      blendMode: .overlay,
-                     opacity: translationTime)
+                     opacity: 1 - translationTime)
         .overlay {
             Divider()
                 .blendMode(.overlay)
