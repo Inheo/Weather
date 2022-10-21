@@ -40,7 +40,7 @@ struct HomeView: View {
                 
                 weatherInformation
                 
-                // MARk: - Bottom Sheet
+                // MARK: - Bottom Sheet
                 BottomSheetView(position: $bottomSheetPosition) {
 //                    Text(bottomSheetTranslationTime.formatted())
                 } content: {
@@ -50,7 +50,7 @@ struct HomeView: View {
                     bottomSheetTranslation = translation / screenHeight
                     
                     withAnimation {
-                        hasDragged = bottomSheetTranslationTime > 0.8
+                        hasDragged = bottomSheetTranslationTime > 0.9
                     }
                 }
                 
