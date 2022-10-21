@@ -25,6 +25,7 @@
 		708F43282902AFD8000AAB59 /* ForecastCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F43272902AFD8000AAB59 /* ForecastCard.swift */; };
 		708F432A2902EB2A000AAB59 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F43292902EB2A000AAB59 /* NavigationBar.swift */; };
 		708F432C2902EF21000AAB59 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F432B2902EF21000AAB59 /* WeatherView.swift */; };
+		708F432E2902F72A000AAB59 /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F432D2902F72A000AAB59 /* WeatherWidget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		708F43272902AFD8000AAB59 /* ForecastCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCard.swift; sourceTree = "<group>"; };
 		708F43292902EB2A000AAB59 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		708F432B2902EF21000AAB59 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		708F432D2902F72A000AAB59 /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				708F431C29019A0C000AAB59 /* Blur.swift */,
 				708F432329027923000AAB59 /* SegmentedControl.swift */,
 				708F43272902AFD8000AAB59 /* ForecastCard.swift */,
+				708F432D2902F72A000AAB59 /* WeatherWidget.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 			files = (
 				708F432C2902EF21000AAB59 /* WeatherView.swift in Sources */,
 				708F42FB29015766000AAB59 /* ContentView.swift in Sources */,
+				708F432E2902F72A000AAB59 /* WeatherWidget.swift in Sources */,
 				708F432029019ECF000AAB59 /* BackgroundBlur.swift in Sources */,
 				708F432429027923000AAB59 /* SegmentedControl.swift in Sources */,
 				708F431029016494000AAB59 /* HomeView.swift in Sources */,

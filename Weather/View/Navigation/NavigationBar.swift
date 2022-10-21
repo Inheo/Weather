@@ -36,10 +36,13 @@ struct NavigationBar: View {
                 }
             }
         }
-        .padding(.horizontal, 16)
         .frame(height: 106, alignment: .top)
-        .background(Color.navBarBackground)
+        .padding(.horizontal, 16)
+        .padding(.top, 49)
         .backgroundBlur(radius: 20, opaque: true)
+        .background(Color.navBarBackground)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .ignoresSafeArea()
     }
 }
 
