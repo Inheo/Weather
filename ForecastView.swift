@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ForecastView: View {
+    var translationTime: CGFloat
+    
     var body: some View {
         ScrollView {
             
@@ -19,7 +21,8 @@ struct ForecastView: View {
                      color: Color.bottomSheetBorderMiddle,
                      offsetY: 1,
                      blurRadius: 0,
-                     blendMode: .overlay)
+                     blendMode: .overlay,
+                     opacity: translationTime)
         .overlay {
             Divider()
                 .blendMode(.overlay)
@@ -39,7 +42,7 @@ struct ForecastView: View {
 
 struct ForecastView_Previews: PreviewProvider {
     static var previews: some View {
-        ForecastView()
+        ForecastView(translationTime: 1)
             .background(Color.background)
             .preferredColorScheme(.dark)
     }

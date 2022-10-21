@@ -20,3 +20,16 @@ extension Color {
     static let forecastCardBackground = Color("Forecast Card Background")
     static let probabilityText = Color("Probability Text")
 }
+
+extension CGFloat {
+    func clamp(min: CGFloat, max: CGFloat) -> CGFloat{
+        if self < min {
+            return min
+        }
+        else if self > max {
+            return max
+        }
+        
+        return self
+    }
+}
