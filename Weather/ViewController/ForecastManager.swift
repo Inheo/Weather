@@ -8,13 +8,12 @@
 import Foundation
 
 class ForecastManager: ObservableObject {
-    
     var location = "Makhachkala"
     let key = "CP23LW7FNGLJNQR4ZJ844J5F2"
-    var addresses = Addresses()
     
+    private var addresses = Addresses()
     @Published private var currentForecast: Forecast?
-    @Published var allForecasts: [CountryForecast]
+    @Published private(set) var allForecasts: [CountryForecast]
     
     var url: String { "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(location)?unitGroup=metric&include=days%2Chours&key=\(key)&contentType=json"
     }
@@ -27,10 +26,10 @@ class ForecastManager: ObservableObject {
         addresses.forEach { address in
             self.location = address
             DataFetcher.fetchForecast(url: url, fallBack: { forecast in self.allForecasts.append(forecast.toCountryForecast()) })
-        }
-        
+
         location = "Makhachkala"
         DataFetcher.fetchForecast(url: url, fallBack: { self.currentForecast = $0 })
+        }
     }
     
     //MARK: - Intent
@@ -60,16 +59,24 @@ class ForecastManager: ObservableObject {
     }
     
     func tryAddNewAddress(newAddress: String) {
-        if newAddress.isEmpty {
+        if newAddress.isEmpty || addresses.contains(newAddress) {
             return
         }
-        
+
         addresses.addAddress(newAddress)
-        addresses.saveAddresses()
         location = newAddress
         
-        DataFetcher.fetchForecast(url: url, fallBack: {forecast in
+        DataFetcher.fetchForecast(url: url, fallBack: { forecast in
             self.allForecasts.append(forecast.toCountryForecast())
         })
+    }
+    
+    func deleteAddres(_ address: String) {
+        let index = addresses.delete(address)
+        
+        if index == -1 {
+            return
+        }
+        allForecasts.remove(at: index)
     }
 }

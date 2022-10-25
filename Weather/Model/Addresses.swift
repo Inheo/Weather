@@ -9,10 +9,21 @@ import Foundation
 
 struct Addresses {
     let key = "addresses"
-    var addresses: [String] = []
+    private var addresses: [String] = []
     
     mutating func addAddress(_ address: String) {
         addresses.append(address)
+        saveAddresses()
+    }
+    
+    mutating func delete(_ address: String) -> Int {
+        guard let index = addresses.firstIndex(of: address) else {
+            return -1
+        }
+        
+        addresses.remove(at: index)
+        saveAddresses()
+        return index
     }
     
     mutating func load() {
@@ -31,5 +42,9 @@ struct Addresses {
     
     func forEach(_ body: (String) -> Void) {
         addresses.forEach{ address in body(address) }
+    }
+    
+    func contains(_ address: String) -> Bool {
+        return addresses.contains(address)
     }
 }

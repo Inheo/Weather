@@ -42,8 +42,10 @@ struct NavigationBar: View {
                         TextField("Search city", text: $newCity)
                             .foregroundColor(Color.black)
                         Button("Add", action: {
-                            addNewAddress(newCity)
-                            newCity = ""
+                            withAnimation {
+                                addNewAddress(newCity)
+                                newCity = ""
+                            }
                             
                         })
                         Button("Cancel", action: { newCity = "" })

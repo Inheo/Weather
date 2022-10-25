@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeatherWidget: View {
+    @EnvironmentObject var forecastManager: ForecastManager
     var countryForecast: CountryForecast
     
     var body: some View {
@@ -42,12 +43,18 @@ struct WeatherWidget: View {
             .padding(.leading, 20)
         }
         .frame(width: 342, height: 184)
+        .onTapGesture(count: 3, perform: {
+            withAnimation {
+                forecastManager.deleteAddres(countryForecast.address)
+            }
+        })
     }
 }
 
 struct WeatherWidget_Previews: PreviewProvider {
     static var previews: some View {
         WeatherWidget(countryForecast: CountryForecast(forecast: Forecast(address: "Moscow", days: [])))
+            .environmentObject(ForecastManager())
             .preferredColorScheme(.dark)
     }
 }
