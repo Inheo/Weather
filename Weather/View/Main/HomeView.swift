@@ -22,6 +22,7 @@ enum BottomSheetPosition: CGFloat, CaseIterable {
 }
 
 struct HomeView: View {
+    @EnvironmentObject var forecastManager: ForecastManager
     @State var bottomSheetPosition: BottomSheetPosition = .middle
     @State var bottomSheetTranslation: CGFloat = BottomSheetPosition.middle.rawValue
     @State var hasDragged = false
@@ -56,7 +57,7 @@ struct HomeView: View {
                 }
                 
                 // MARK - Tab Bar
-                TabBar(action: {bottomSheetPosition.toggle()})
+                TabBar(action: { bottomSheetPosition.toggle() })
                     .offset(y: bottomSheetTranslationTime * 115)
                     .frame(maxHeight: .infinity, alignment: .bottom)
                     .ignoresSafeArea()
@@ -86,14 +87,14 @@ struct HomeView: View {
     
     var weatherInformation: some View {
         VStack(spacing: -10 * (1 - bottomSheetTranslationTime)) {
-            Text("Montreal")
+            Text(forecastManager.address)
                 .font(.largeTitle)
             
             VStack {
                 Text(attributedString)
                     .multilineTextAlignment(.center)
                 
-                Text("H:24°   L:18°")
+                Text("H:\(String(format: "%.1f", forecastManager.today.high))°   L:\(String(format: "%.1f", forecastManager.today.low))°")
                     .font(.title3.weight(.semibold))
                     .multilineTextAlignment(.center)
                     .opacity(1 - bottomSheetTranslationTime)
@@ -107,9 +108,12 @@ struct HomeView: View {
     }
     
     var attributedString: AttributedString {
-        var string = AttributedString("19°" + (hasDragged ? " | " : "\n") + "Mostly Clear")
+        // MARK: TODO change to current data
+        let temperature = String(format: "%.1f", forecastManager.today.temperature)
+        let conditions = forecastManager.today.conditions
+        var string = AttributedString("\(temperature)°" + (hasDragged ? " | " : "\n") + conditions)
         
-        if let temp = string.range(of: "19°") {
+        if let temp = string.range(of: "\(temperature)°") {
             string[temp].font = .system(size: 96 - bottomSheetTranslationTime * (96 - 20),
                                         weight: hasDragged ? .semibold : .thin)
             string[temp].foregroundColor = hasDragged ? .secondary : .primary
@@ -120,7 +124,7 @@ struct HomeView: View {
             string[pipe].foregroundColor = .secondary
         }
         
-        if let weather = string.range(of: "Mostly Clear") {
+        if let weather = string.range(of: conditions) {
             string[weather].font = .title3.weight(.semibold)
             string[weather].foregroundColor = .secondary
         }
@@ -133,5 +137,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .preferredColorScheme(.dark)
+            .environmentObject(ForecastManager())
     }
 }

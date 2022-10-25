@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ForecastCard: View {
-    var forecast: Forecast
+    var forecast: BaseInforamation
     var period: ForecastPeriod
     var isActive: Bool {
         if period == ForecastPeriod.hourly {
@@ -39,18 +39,18 @@ struct ForecastCard: View {
                              blendMode: .overlay)
             
             VStack(spacing: 16) {
-                Text(forecast.date, format: period == .hourly ? .dateTime.hour() : .dateTime.day())
+                Text(forecast.date, format: period == .hourly ? .dateTime.hour() : .dateTime.weekday())
                     .font(.subheadline.weight(.semibold))
                 VStack(spacing: -4) {
-                    Image("\(forecast.icon) small")
-                    Text(forecast.probability, format: .percent)
+                    Image("Moon cloud fast wind small")
+                    Text(Int(forecast.probability), format: .percent)
                         .font(.footnote.weight(.semibold))
                         .foregroundColor(Color.probabilityText)
                         .opacity(forecast.probability > 0 ? 1 : 0)
                 }
                 .frame(width: 44, height: 38)
                 
-                Text("\(forecast.temperature)°")
+                Text("\(String(format: "%.0f", forecast.temperature))°")
                     .font(.title3.weight(.regular))
                 
             }
@@ -67,6 +67,13 @@ struct ForecastCard: View {
 
 struct ForecastCard_Previews: PreviewProvider {
     static var previews: some View {
-        ForecastCard(forecast: Forecast.hourly[0], period: .hourly)
+        let hour = BaseInforamation(hour: Hour(date: Date.now.formatted(), temperature: 0, probability: 20, conditions: ""))
+        let day = BaseInforamation(day: Day(date: "2022-10-24", temperature: 0, high: 0, low: 0, probability: 30, conditions: "", hours: []))
+        
+        ForecastCard(forecast: day, period: .daily)
+            .preferredColorScheme(.dark)
+        
+        ForecastCard(forecast: hour, period: .hourly)
+            .preferredColorScheme(.dark)
     }
 }

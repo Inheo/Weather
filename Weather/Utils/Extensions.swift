@@ -33,3 +33,17 @@ extension CGFloat {
         return self
     }
 }
+
+extension String {
+    func ToDate(format: String = "yyyy-MM-dd") -> Date{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.date(from: self) ?? .now
+    }
+}
+
+extension Forecast {
+    func toCountryForecast() -> CountryForecast {
+        return CountryForecast(forecast: self)
+    }
+}

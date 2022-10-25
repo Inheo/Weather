@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct WeatherView: View {
+    @EnvironmentObject var forecastManager: ForecastManager
     @State private var searchText = ""
     
-    var searchedCities: [Forecast] {
+    var searchedCities: [CountryForecast] {
         if searchText.isEmpty {
-            return Forecast.cities
+            return forecastManager.allForecasts
         }
         else {
-            return Forecast.cities.filter { $0.location.contains(searchText) }
+            return forecastManager.allForecasts.filter { $0.address.contains(searchText) }
         }
     }
     
@@ -27,7 +28,7 @@ struct WeatherView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 20) {
                     ForEach(searchedCities) { forecast in
-                        WeatherWidget(forecast: forecast)
+                        WeatherWidget(countryForecast: forecast)
                     }
                 }
             }
@@ -49,6 +50,7 @@ struct WeatherView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             WeatherView()
+                .environmentObject(ForecastManager())
                 .preferredColorScheme(.dark)
         }
     }

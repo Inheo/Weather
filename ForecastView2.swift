@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ForecastView: View {
-    var translationTime: CGFloat
+    @EnvironmentObject var forecastManager: ForecastManager
     @State private var selection = 0
+    var translationTime: CGFloat
     
     var body: some View {
         ScrollView {
@@ -18,9 +19,17 @@ struct ForecastView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
-                        ForEach(selection == 0 ? Forecast.hourly : Forecast.daily) { forecast in
-                            ForecastCard(forecast: forecast, period: selection == 0 ? .hourly : .daily)
-                                .transition(.offset(x: selection == 0 ? -430 : 430))
+                        if selection == 0 {
+                            ForEach(forecastManager.todayHours) { forecast in
+                                ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .hourly)
+                                    .transition(.offset(x: selection == 0 ? -430 : 430))
+                            }
+                        }
+                        else {
+                            ForEach(forecastManager.days) { forecast in
+                                ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .daily)
+                                    .transition(.offset(x: selection == 0 ? -430 : 430))
+                            }
                         }
                     }
                     .padding(.vertical, 20)
@@ -62,5 +71,6 @@ struct ForecastView_Previews: PreviewProvider {
         ForecastView(translationTime: 1)
             .background(Color.background)
             .preferredColorScheme(.dark)
+            .environmentObject(ForecastManager())
     }
 }

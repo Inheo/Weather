@@ -22,62 +22,65 @@ enum Weather: String {
     case windy = "Fast Wind"
 }
 
-struct Forecast: Identifiable {
-    var id = UUID()
-    var date: Date
-    var weather: Weather
-    var probability: Int
-    var temperature: Int
-    var high: Int
-    var low: Int
-    var location: String
+struct Forecast: Codable {
+    var address: String
+    var days: [Day]
     
-    var icon: String {
-        switch weather {
-        case .clear:
-            return "Moon"
-        case .cloudy:
-            return "Cloud"
-        case .rainy:
-            return "Moon cloud mid rain"
-        case .stormy:
-            return "Sun cloud angled rain"
-        case .sunny:
-            return "Sun"
-        case .tornado:
-            return "Tornado"
-        case .windy:
-            return "Moon cloud fast wind"
-        }
+    var today: Day {
+        return days.first ?? Day(date: Date.now.formatted(), temperature: 0, high: 0, low: 0, probability: 0, conditions: "", hours: [])
     }
 }
 
-extension Forecast {
-    static let hour: TimeInterval = 60 * 60
-    static let day: TimeInterval = 60 * 60 * 24
+struct Day: Codable, Identifiable {
+    var id = UUID()
+    var date: String
+    var temperature: Double
+    var high: Double
+    var low: Double
+    var probability: Double
+    var conditions: String
+    var hours: [Hour]
     
-    static let hourly: [Forecast] = [
-        Forecast(date: .init(timeIntervalSinceNow: hour * -1), weather: .rainy, probability: 30, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .now, weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: hour * 1), weather: .windy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: hour * 2), weather: .rainy, probability: 0, temperature: 18, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: hour * 3), weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: hour * 4), weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada")
-    ]
+    enum CodingKeys: String, CodingKey {
+        case date = "datetime"
+        case temperature = "temp"
+        case high = "tempmax"
+        case low = "tempmin"
+        case probability = "precipprob"
+        case conditions = "conditions"
+        case hours = "hours"
+    }
+}
+
+struct Hour: Codable, Identifiable {
+    var id = UUID()
+    var date: String
+    var temperature: Double
+    var probability: Double
+    var conditions: String
     
-    static let daily: [Forecast] = [
-        Forecast(date: .init(timeIntervalSinceNow: 0), weather: .rainy, probability: 30, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: day * 1), weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: day * 2), weather: .stormy, probability: 100, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: day * 3), weather: .stormy, probability: 50, temperature: 18, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: day * 4), weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .init(timeIntervalSinceNow: day * 5), weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada")
-    ]
+    enum CodingKeys: String, CodingKey {
+        case date = "datetime"
+        case temperature = "temp"
+        case probability = "precipprob"
+        case conditions = "conditions"
+    }
+}
+
+struct BaseInforamation {
+    var date: Date
+    var temperature: Double
+    var probability: Double
     
-    static let cities: [Forecast] = [
-        Forecast(date: .now, weather: .rainy, probability: 0, temperature: 19, high: 24, low: 18, location: "Montreal, Canada"),
-        Forecast(date: .now, weather: .windy, probability: 0, temperature: 20, high: 21, low: 19, location: "Toronto, Canada"),
-        Forecast(date: .now, weather: .stormy, probability: 0, temperature: 13, high: 16, low: 8, location: "Tokyo, Japan"),
-        Forecast(date: .now, weather: .tornado, probability: 0, temperature: 23, high: 26, low: 16, location: "Tennessee, United States")
-    ]
+    init(hour: Hour) {
+        date = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: hour.date.ToDate(format: "HH:mm:ss")), minute: 0, second: 0, of: Date()) ?? .now
+        temperature = hour.temperature
+        probability = hour.probability
+    }
+    
+    init(day: Day) {
+        date = day.date.ToDate()
+        temperature = day.temperature
+        probability = day.probability
+    }
 }

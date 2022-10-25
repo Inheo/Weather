@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeatherWidget: View {
-    var forecast: Forecast
+    var countryForecast: CountryForecast
     
     var body: some View {
         ZStack {
@@ -18,12 +18,12 @@ struct WeatherWidget: View {
             
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text("\(forecast.temperature)°")
+                    Text("\(String(format: "%.1f", countryForecast.today.temperature))°")
                         .font(.system(size: 64).weight(.regular))
                     
                     VStack(alignment: .leading) {
-                        Text("H:\(forecast.high)°   L:\(forecast.low)°")
-                        Text("\(forecast.location)")
+                        Text("H:\(String(format: "%.1f", countryForecast.today.high))°   L:\(String(format:"%.1f", countryForecast.today.low))°")
+                        Text("\(countryForecast.address)")
                             .lineLimit(1)
                     }
                 }
@@ -31,8 +31,8 @@ struct WeatherWidget: View {
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 0) {
-                    Image("\(forecast.icon) large")
-                    Text("\(forecast.weather.rawValue)")
+                    Image("Moon cloud fast wind large")
+                    Text("\(countryForecast.today.conditions)")
                         .font(.system(size: 13).weight(.regular))
                         .padding(.trailing, 24)
                 }
@@ -47,7 +47,7 @@ struct WeatherWidget: View {
 
 struct WeatherWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherWidget(forecast: Forecast.cities[0])
+        WeatherWidget(countryForecast: CountryForecast(forecast: Forecast(address: "Moscow", days: [])))
             .preferredColorScheme(.dark)
     }
 }

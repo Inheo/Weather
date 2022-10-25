@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
+    var forecastManager = ForecastManager()
     var body: some Scene {
         WindowGroup {
-            ContentView().preferredColorScheme(.dark)
+            ContentView()
+                .preferredColorScheme(.dark)
+                .environmentObject(forecastManager)
         }
     }
 }
