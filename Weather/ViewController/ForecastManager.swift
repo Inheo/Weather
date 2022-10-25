@@ -14,7 +14,7 @@ class ForecastManager: ObservableObject {
     var addresses = Addresses()
     
     @Published private var currentForecast: Forecast?
-    var allForecasts: [CountryForecast]
+    @Published var allForecasts: [CountryForecast]
     
     var url: String { "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(location)?unitGroup=metric&include=days%2Chours&key=\(key)&contentType=json"
     }
@@ -57,5 +57,19 @@ class ForecastManager: ObservableObject {
     
     func convertToBaseInformation(_ day: Day) -> BaseInforamation {
         return BaseInforamation(day: day)
+    }
+    
+    func tryAddNewAddress(newAddress: String) {
+        if newAddress.isEmpty {
+            return
+        }
+        
+        addresses.addAddress(newAddress)
+        addresses.saveAddresses()
+        location = newAddress
+        
+        DataFetcher.fetchForecast(url: url, fallBack: {forecast in
+            self.allForecasts.append(forecast.toCountryForecast())
+        })
     }
 }

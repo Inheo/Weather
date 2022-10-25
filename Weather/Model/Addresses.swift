@@ -26,7 +26,7 @@ struct Addresses {
     }
     
     func saveAddresses() {
-            UserDefaults.standard.set(try? JSONEncoder().encode(addresses), forKey: key)
+        UserDefaults.standard.set(try? JSONEncoder().encode(addresses), forKey: key)
     }
     
     func forEach(_ body: (String) -> Void) {

@@ -38,7 +38,8 @@ struct WeatherView: View {
             }
         }
         .overlay {
-            NavigationBar(searchText: $searchText)
+            NavigationBar(searchText: $searchText,
+                          addNewAddress:  forecastManager.tryAddNewAddress(newAddress:))
                 .frame(maxHeight: .infinity, alignment: .top)
         }
         .navigationBarHidden(true)

@@ -10,6 +10,10 @@ import SwiftUI
 struct NavigationBar: View {
     @Environment(\.dismiss) var dismiss
     @Binding var searchText: String
+    @State var addNewCityAlertPresented = false
+    @State var newCity: String = ""
+    
+    var addNewAddress: (String) -> Void
     
     var body: some View {
         ZStack {
@@ -30,9 +34,20 @@ struct NavigationBar: View {
                     }
                     
                     Spacer()
-                    
-                    Image(systemName: "ellipsis.circle")
-                        .font(.system(size: 28).weight(.regular))
+                    Button(action: { addNewCityAlertPresented = true }) {
+                        Image(systemName: "plus.circle")
+                            .font(.system(size: 28).weight(.regular))
+                    }
+                    .alert("Search new city", isPresented: $addNewCityAlertPresented) {
+                        TextField("Search city", text: $newCity)
+                            .foregroundColor(Color.black)
+                        Button("Add", action: {
+                            addNewAddress(newCity)
+                            newCity = ""
+                            
+                        })
+                        Button("Cancel", action: { newCity = "" })
+                    }
                 }
                 
                 HStack(spacing: 2) {
@@ -63,6 +78,6 @@ struct NavigationBar: View {
 
 struct NavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationBar(searchText: .constant(""))
+        NavigationBar(searchText: .constant(""), addNewAddress: {_ in })
     }
 }
