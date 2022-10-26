@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct WeatherWidget: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var forecastManager: ForecastManager
-    var countryForecast: CountryForecast
+    var forecast: CountryForecast
     
     var body: some View {
         ZStack {
@@ -19,12 +20,12 @@ struct WeatherWidget: View {
             
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text("\(String(format: "%.1f", countryForecast.today.temperature))°")
+                    Text("\(String(format: "%.1f", forecast.today.temperature))°")
                         .font(.system(size: 64).weight(.regular))
                     
                     VStack(alignment: .leading) {
-                        Text("H:\(String(format: "%.1f", countryForecast.today.high))°   L:\(String(format:"%.1f", countryForecast.today.low))°")
-                        Text("\(countryForecast.address)")
+                        Text("H:\(String(format: "%.1f", forecast.today.high))°   L:\(String(format:"%.1f", forecast.today.low))°")
+                        Text("\(forecast.address)")
                             .lineLimit(1)
                     }
                 }
@@ -33,7 +34,7 @@ struct WeatherWidget: View {
                 
                 VStack(alignment: .trailing, spacing: 0) {
                     Image("Moon cloud fast wind large")
-                    Text("\(countryForecast.today.conditions)")
+                    Text("\(forecast.today.conditions)")
                         .font(.system(size: 13).weight(.regular))
                         .padding(.trailing, 24)
                 }
@@ -43,17 +44,30 @@ struct WeatherWidget: View {
             .padding(.leading, 20)
         }
         .frame(width: 342, height: 184)
-        .onTapGesture(count: 3, perform: {
-            withAnimation {
-                forecastManager.deleteAddres(countryForecast.address)
+        .gesture(deleteTap().exclusively(before: chooseTap()))
+    }
+    
+    func deleteTap() -> some Gesture {
+        TapGesture(count: 3)
+            .onEnded {
+                withAnimation {
+                    forecastManager.deleteAddres(forecast.address)
+                }
+        }
+    }
+    
+    func chooseTap() -> some Gesture {
+        TapGesture(count: 1)
+            .onEnded {
+                dismiss()
+                forecastManager.changeCurrentForecast(forecast.forecast)
             }
-        })
     }
 }
 
 struct WeatherWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherWidget(countryForecast: CountryForecast(forecast: Forecast(address: "Moscow", days: [])))
+        WeatherWidget(forecast: CountryForecast(forecast: Forecast(address: "Moscow", days: [])))
             .environmentObject(ForecastManager())
             .preferredColorScheme(.dark)
     }

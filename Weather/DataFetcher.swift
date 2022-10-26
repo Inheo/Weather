@@ -8,14 +8,17 @@
 import Foundation
 
 class DataFetcher {
-    static func fetchForecast(url: String, fallBack: @escaping (Forecast) -> Void) {
+    static func fetchForecast(url: String, fallBack: @escaping (Forecast) -> Void, failBack: @escaping () -> Void = {}) {
         guard let url = URL(string: url) else {
-            print("какая-то херь случилась братик")
+            failBack()
             return
         }
         
         URLSession.shared.dataTask(with: url) { (data, _, _) in
-            guard let data = data else { return }
+            guard let data = data else {
+                failBack()
+                return
+            }
             
             do {
                 let forecast = try JSONDecoder().decode(Forecast.self, from: data)
@@ -23,6 +26,7 @@ class DataFetcher {
                     fallBack(forecast)
                 }
             } catch let error {
+                failBack()
                 print(error)
             }
         }.resume()

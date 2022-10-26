@@ -23,12 +23,21 @@ class ForecastManager: ObservableObject {
     
         addresses.load()
         
-        addresses.forEach { address in
-            self.location = address
-            DataFetcher.fetchForecast(url: url, fallBack: { forecast in self.allForecasts.append(forecast.toCountryForecast()) })
-
+        fetchForecast()
+        
         location = "Makhachkala"
         DataFetcher.fetchForecast(url: url, fallBack: { self.currentForecast = $0 })
+    }
+    
+    func fetchForecast() {
+        addresses.forEach { address in
+            self.location = address
+            
+            DataFetcher.fetchForecast(url: url) {
+                forecast in self.allForecasts.append(forecast.toCountryForecast())
+            } failBack: {
+                _ = self.addresses.delete(address)
+            }
         }
     }
     
@@ -78,5 +87,9 @@ class ForecastManager: ObservableObject {
             return
         }
         allForecasts.remove(at: index)
+    }
+    
+    func changeCurrentForecast(_ forecast: Forecast) {
+        currentForecast = forecast
     }
 }

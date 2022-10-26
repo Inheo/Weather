@@ -28,7 +28,7 @@ struct WeatherView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 20) {
                     ForEach(searchedCities) { forecast in
-                            WeatherWidget(countryForecast: forecast)
+                            WeatherWidget(forecast: forecast)
                                 .transition(AnyTransition.asymmetric(insertion: .scale, removal: .scale))
                     }
                 }
