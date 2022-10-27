@@ -21,41 +21,56 @@ struct AlertFindPlace: UIViewControllerRepresentable {
     var cancel: () -> Void = { }
 
     func makeUIViewController(context: Context) -> UIViewController {
-      return UIViewController()
+        return UIViewController()
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
-        context.coordinator.alert = alert
-        
-        alert.addTextField { textField in
-            textField.placeholder = "Enter some text"
-            textField.text = self.text
-            textField.delegate = context.coordinator
+        if isPresented {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+            context.coordinator.alert = alert
             
-        }
-        
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
-            self.text = ""
-            self.isPresented = false
-            cancel()
-        })
-        
-        alert.addAction(UIAlertAction(title: "Add",
-                                      style: .default) { _ in
-            if let textField = alert.textFields?.first, var text = textField.text {
-                text = replaceSpaces ? text.split(separator: " ").joined(separator: "%20") : text
-                self.text = text
-                completion(text)
+            alert.addTextField { textField in
+                textField.placeholder = placeholder
+                textField.text = self.text
+                textField.delegate = context.coordinator
+                
+            }
+            
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                          style: .cancel) { _ in
                 self.isPresented = false
                 self.text = ""
-            }
-        })
-        
-        DispatchQueue.main.async {
-            uiViewController.present(alert, animated: true, completion: {
-                self.isPresented = false
+                cancel()
             })
+            
+            alert.addAction(UIAlertAction(title: "Add",
+                                          style: .default) { _ in
+                self.isPresented = false
+                if let textField = alert.textFields?.first, var text = textField.text {
+                    text = replaceSpaces ? text.split(separator: " ").joined(separator: "%20") : text
+                    self.text = text
+                    completion(text)
+                    self.text = ""
+                }
+            })
+            
+//            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true) {
+//                isPresented = false
+//            }
+            
+            guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                return
+            }
+            
+            guard let root = screen.windows.first?.rootViewController else {
+                return
+            }
+            
+            root.present(alert, animated: true) {
+                isPresented = false
+            }
+            
+//            UIApplication.shared.wind
         }
     }
     
