@@ -16,14 +16,13 @@ struct Addresses {
         saveAddresses()
     }
     
-    mutating func delete(_ address: String) -> Int {
+    mutating func delete(_ address: String) {
         guard let index = addresses.firstIndex(of: address) else {
-            return -1
+            return
         }
         
         addresses.remove(at: index)
         saveAddresses()
-        return index
     }
     
     mutating func load() {

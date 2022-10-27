@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class ForecastManager: ObservableObject {
     var location = "Makhachkala"
@@ -15,18 +16,34 @@ class ForecastManager: ObservableObject {
     @Published private var currentForecast: Forecast?
     @Published private(set) var allForecasts: [CountryForecast]
     
+    private var cancellable: Set<AnyCancellable> = []
+    
     var url: String { "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(location)?unitGroup=metric&include=days%2Chours&key=\(key)&contentType=json"
     }
     
     init() {
+        let locationService = DeviceLocationService.shared
         allForecasts = []
     
         addresses.load()
         
         fetchForecast()
-        
-        location = "Makhachkala"
-        DataFetcher.fetchForecast(url: url, fallBack: { self.currentForecast = $0 })
+
+        locationService.coordinatesPublisher
+            .sink(receiveCompletion: { completion in
+                print(completion)
+            }, receiveValue: { location in
+                self.location = "\(location.coordinate.latitude)%2C\(location.coordinate.longitude)"
+                DataFetcher.fetchForecast(url: self.url) { forecast in
+                    locationService.convertToCityName(location: location, completion: {
+                        self.currentForecast = forecast
+                        self.currentForecast?.address = $0
+                    })
+                } failBack: { msg in print(msg) }
+            })
+            .store(in: &cancellable)
+
+        locationService.requestLocationUpdates()
     }
     
     func fetchForecast() {
@@ -35,8 +52,8 @@ class ForecastManager: ObservableObject {
             
             DataFetcher.fetchForecast(url: url) {
                 forecast in self.allForecasts.append(forecast.toCountryForecast())
-            } failBack: {
-                _ = self.addresses.delete(address)
+            } failBack: { _ in
+                self.addresses.delete(address)
             }
         }
     }
@@ -81,12 +98,9 @@ class ForecastManager: ObservableObject {
     }
     
     func deleteAddres(_ address: String) {
-        let index = addresses.delete(address)
+        addresses.delete(address)
         
-        if index == -1 {
-            return
-        }
-        allForecasts.remove(at: index)
+        allForecasts.deleteAddress(address)
     }
     
     func changeCurrentForecast(_ forecast: Forecast) {

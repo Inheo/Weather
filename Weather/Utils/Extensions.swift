@@ -47,3 +47,14 @@ extension Forecast {
         return CountryForecast(forecast: self)
     }
 }
+
+extension [CountryForecast] {
+    mutating func deleteAddress(_ address: String) {
+        for i in 0..<self.count {
+            if self[i].forecast.address == address {
+                self.remove(at: i)
+                break
+            }
+        }
+    }
+}

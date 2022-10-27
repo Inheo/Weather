@@ -8,15 +8,19 @@
 import Foundation
 
 class DataFetcher {
-    static func fetchForecast(url: String, fallBack: @escaping (Forecast) -> Void, failBack: @escaping () -> Void = {}) {
+    static func fetchForecast(url: String, fallBack: @escaping (Forecast) -> Void, failBack: @escaping (String) -> Void = {_ in }) {
         guard let url = URL(string: url) else {
-            failBack()
+            failBack("Incorrect url")
             return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, _, _) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                failBack(error.localizedDescription)
+            }
+            
             guard let data = data else {
-                failBack()
+                failBack("Data is null")
                 return
             }
             
@@ -26,8 +30,7 @@ class DataFetcher {
                     fallBack(forecast)
                 }
             } catch let error {
-                failBack()
-                print(error)
+                failBack(error.localizedDescription)
             }
         }.resume()
         

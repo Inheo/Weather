@@ -38,18 +38,6 @@ struct NavigationBar: View {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 28).weight(.regular))
                     }
-                    .alert("Search new city", isPresented: $addNewCityAlertPresented) {
-                        TextField("Search city", text: $newCity)
-                            .foregroundColor(Color.black)
-                        Button("Add", action: {
-                            withAnimation {
-                                addNewAddress(newCity)
-                                newCity = ""
-                            }
-                            
-                        })
-                        Button("Cancel", action: { newCity = "" })
-                    }
                 }
                 
                 HStack(spacing: 2) {
@@ -75,6 +63,15 @@ struct NavigationBar: View {
         .background(Color.navBarBackground)
         .frame(maxHeight: .infinity, alignment: .top)
         .ignoresSafeArea()
+        .overlay {
+            if addNewCityAlertPresented {
+                AlertFindPlace(text: $newCity, isPresented: $addNewCityAlertPresented, title: "Write the name of the city") { placeName in
+                    withAnimation {
+                        addNewAddress(newCity)
+                    }
+                }
+            }
+        }
     }
 }
 

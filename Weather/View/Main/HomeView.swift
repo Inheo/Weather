@@ -62,13 +62,13 @@ struct HomeView: View {
                     .frame(maxHeight: .infinity, alignment: .bottom)
                     .ignoresSafeArea()
             }
-            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
         }
     }
     
     // MARK: - properties
     var backgroundItems: some View {
-        ZStack {
+        Group {
             Color.background
                 .ignoresSafeArea()
             
@@ -88,7 +88,10 @@ struct HomeView: View {
     var weatherInformation: some View {
         VStack(spacing: -10 * (1 - bottomSheetTranslationTime)) {
             Text(forecastManager.address)
+                .minimumScaleFactor(0.7)
                 .font(.largeTitle)
+                .multilineTextAlignment(.center)
+                .lineLimit(1)
             
             VStack {
                 Text(attributedString)
@@ -102,6 +105,7 @@ struct HomeView: View {
             
             Spacer()
         }
+        .padding(.horizontal)
         .foregroundColor(.white)
         .padding(.top, 51)
         .offset(y: -bottomSheetTranslationTime * 46)
