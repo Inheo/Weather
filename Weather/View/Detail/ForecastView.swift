@@ -13,10 +13,9 @@ struct ForecastView: View {
     var translationTime: CGFloat
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                SegmentedControl(selection: $selection)
-                
+        VStack(spacing: 0) {
+            SegmentedControl(selection: $selection)
+            ScrollView {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         if selection == 0 {
@@ -32,7 +31,7 @@ struct ForecastView: View {
                             }
                         }
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical, BaseResolution.valueRelativeHeight(20))
                 }
                 .padding(.horizontal, 20)
                 
@@ -50,19 +49,27 @@ struct ForecastView: View {
                      blendMode: .overlay,
                      opacity: 1 - translationTime)
         .overlay {
-            Divider()
-                .blendMode(.overlay)
-                .background(Color.bottomSheetBorderTop)
-                .frame(maxHeight: .infinity, alignment: .top)
-                .clipShape(RoundedRectangle(cornerRadius: 44))
+            topLine
         }
         .overlay {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.black.opacity(0.3))
-                .frame(width: 48, height: 5)
-                .frame(maxHeight: .infinity, alignment: .top)
-                .padding(.top, 10)
+            rectangleHold
         }
+    }
+    
+    var topLine: some View {
+        Divider()
+            .blendMode(.overlay)
+            .background(Color.bottomSheetBorderTop)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .clipShape(RoundedRectangle(cornerRadius: 44))
+    }
+    
+    var rectangleHold: some View {
+        RoundedRectangle(cornerRadius: 10)
+            .fill(.black.opacity(0.3))
+            .frame(width: 48, height: 5)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .padding(.top, 10)
     }
 }
 
