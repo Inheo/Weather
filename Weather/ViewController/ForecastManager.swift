@@ -26,36 +26,71 @@ class ForecastManager: ObservableObject {
         allForecasts = []
     
         addresses.load()
-        
-        fetchForecast()
+        fetchForecasts()
+        fakeCurrenForecast()
 
-        locationService.coordinatesPublisher
-            .sink(receiveCompletion: { completion in
-                print(completion)
-            }, receiveValue: { location in
-                self.location = "\(location.coordinate.latitude)%2C\(location.coordinate.longitude)"
-                DataFetcher.fetchForecast(url: self.url) { forecast in
-                    locationService.convertToCityName(location: location, completion: {
-                        self.currentForecast = forecast
-                        self.currentForecast?.address = $0
-                    })
-                } failBack: { msg in print(msg) }
-            })
-            .store(in: &cancellable)
-
-        locationService.requestLocationUpdates()
+//        locationService.coordinatesPublisher
+//            .sink(receiveCompletion: { completion in
+//                print(completion)
+//            }, receiveValue: { location in
+//                self.location = "\(location.coordinate.latitude)%2C\(location.coordinate.longitude)"
+//                self.fetchForecast(address: self.location) { forecast in
+//                    locationService.convertToCityName(location: location, completion: {
+//                        self.currentForecast = forecast
+//                        self.currentForecast?.address = $0
+//                    })
+//                }
+//            })
+//            .store(in: &cancellable)
+//
+//        locationService.requestLocationUpdates()
     }
     
-    func fetchForecast() {
+    private func fetchForecasts() {
         addresses.forEach { address in
             self.location = address
-            
-            DataFetcher.fetchForecast(url: url) {
-                forecast in self.allForecasts.append(forecast.toCountryForecast())
-            } failBack: { _ in
-                self.addresses.delete(address)
-            }
+//            fetchForecast(address: address)
+            fakeFetchForecast(address: address)
         }
+    }
+    
+    private func fetchForecast(address: String, completion: @escaping (Forecast) -> Void = { _ in }, fail: @escaping () -> Void = { }) {
+        DataFetcher.fetchForecast(url: url) { forecast in
+            self.allForecasts.append(forecast.toCountryForecast())
+            completion(forecast)
+        } failBack: { _ in
+            self.addresses.delete(address)
+            fail()
+        }
+    }
+    
+    private func fakeFetchForecast(address: String) {
+        let day = Day(date: Date.now.formatted(),
+                      temperature: 15,
+                      high: 20,
+                      low: 15,
+                      probability: 30,
+                      conditions: "Rain",
+                      hours: [])
+        let forecast = Forecast(address: address, days: [day])
+        let countryForecast = CountryForecast(forecast: forecast)
+        allForecasts.append(countryForecast)
+    }
+    
+    private func fakeCurrenForecast() {
+        let hour = Hour(date: "00:00:00",
+                        temperature: 20,
+                        probability: 30,
+                        conditions: "Rain")
+        let day = Day(date: Date.now.formatted(),
+                      temperature: 15,
+                      high: 20,
+                      low: 15,
+                      probability: 30,
+                      conditions: "Rain",
+                      hours: Array(repeating: hour, count: 15))
+        let forecast = Forecast(address: "Moscow", days: [day])
+        currentForecast = forecast
     }
     
     //MARK: - Intent
@@ -92,9 +127,7 @@ class ForecastManager: ObservableObject {
         addresses.addAddress(newAddress)
         location = newAddress
         
-        DataFetcher.fetchForecast(url: url, fallBack: { forecast in
-            self.allForecasts.append(forecast.toCountryForecast())
-        })
+        fetchForecast(address: newAddress)
     }
     
     func deleteAddres(_ address: String) {
