@@ -27,30 +27,32 @@ class ForecastManager: ObservableObject {
     
         addresses.load()
         fetchForecasts()
-        fakeCurrenForecast()
 
-//        locationService.coordinatesPublisher
-//            .sink(receiveCompletion: { completion in
-//                print(completion)
-//            }, receiveValue: { location in
-//                self.location = "\(location.coordinate.latitude)%2C\(location.coordinate.longitude)"
-//                self.fetchForecast(address: self.location) { forecast in
-//                    locationService.convertToCityName(location: location, completion: {
-//                        self.currentForecast = forecast
-//                        self.currentForecast?.address = $0
-//                    })
-//                }
-//            })
-//            .store(in: &cancellable)
-//
-//        locationService.requestLocationUpdates()
+        locationService.coordinatesPublisher
+            .sink(receiveCompletion: { completion in
+                print(completion)
+            }, receiveValue: { location in
+                if self.currentForecast != nil {
+                    return
+                }
+                
+                self.location = "\(location.coordinate.latitude)%2C\(location.coordinate.longitude)"
+                self.fetchForecast(address: self.location) { forecast in
+                    locationService.convertToCityName(location: location, completion: {
+                        self.currentForecast = forecast
+                        self.currentForecast?.address = $0
+                    })
+                }
+            })
+            .store(in: &cancellable)
+
+        locationService.requestLocationUpdates()
     }
     
     private func fetchForecasts() {
         addresses.forEach { address in
             self.location = address
-//            fetchForecast(address: address)
-            fakeFetchForecast(address: address)
+            fetchForecast(address: address)
         }
     }
     
@@ -119,7 +121,7 @@ class ForecastManager: ObservableObject {
         return BaseInforamation(day: day)
     }
     
-    func tryAddNewAddress(newAddress: String) {
+    func tryAddNewAddress(_ newAddress: String) {
         if newAddress.isEmpty || addresses.contains(newAddress) {
             return
         }
