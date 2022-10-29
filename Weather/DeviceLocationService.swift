@@ -74,8 +74,6 @@ class DeviceLocationService: NSObject, CLLocationManagerDelegate, ObservableObje
                 return
             }
             
-            print(location.coordinate.longitude)
-            print(location.coordinate.latitude)
             completion(placemark.locality ?? "")
         }
     }

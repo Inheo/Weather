@@ -39,7 +39,7 @@ struct ForecastCard: View {
                              blendMode: .overlay)
             
             VStack(spacing: valueRelativeHeight(16)) {
-                Text(forecast.date, format: period == .hourly ? .dateTime.hour() : .dateTime.weekday())
+                Text(forecast.date, format: period == .hourly ? .dateTime.hour(.conversationalDefaultDigits(amPM: .wide)) : .dateTime.weekday())
                     .font(.system(size: valueRelativeHeight(15)).weight(.semibold))
                 
                 VStack(spacing: valueRelativeHeight(-4)) {
@@ -72,10 +72,10 @@ struct ForecastCard: View {
 
 struct ForecastCard_Previews: PreviewProvider {
     static var previews: some View {
-        let hour = BaseInforamation(hour: Hour(date: Date.now.formatted(), temperature: 0, probability: 20, conditions: ""))
+        let hour = BaseInforamation(hour: Hour(date: "01:00:00", temperature: 0, probability: 20, conditions: ""))
         let day = BaseInforamation(day: Day(date: "2022-10-24", temperature: 0, high: 0, low: 0, probability: 30, conditions: "", hours: []))
         
-        ForecastCard(forecast: day, period: .daily)
+        ForecastCard(forecast: hour, period: .hourly)
             .preferredColorScheme(.dark)
         
         ForecastCard(forecast: hour, period: .hourly)
