@@ -58,3 +58,9 @@ extension [CountryForecast] {
         }
     }
 }
+
+extension CVarArg {
+    func ToString(zerosAfterPoint: Int = 1) -> String {
+        String(format: "%.\(zerosAfterPoint)f", self)
+    }
+}
