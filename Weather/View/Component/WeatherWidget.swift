@@ -16,15 +16,15 @@ struct WeatherWidget: View {
         ZStack {
             Trapezoid()
                 .fill(Color.weatherWidgetBackground)
-                .frame(width: 342, height: 184)
+                .frame(width: trapezoidWidth, height: trapezoidHeight)
             
             HStack(alignment: .bottom) {
-                VStack(alignment: .leading, spacing: 24) {
-                    Text("\(String(format: "%.1f", forecast.today.temperature))°")
-                        .font(.system(size: 64).weight(.regular))
+                VStack(alignment: .leading, spacing: valueRelativeWidth(24)) {
+                    Text("\(forecast.today.temperature.ToString())°")
+                        .font(.system(size: temperatureFontSize).weight(.regular))
                     
                     VStack(alignment: .leading) {
-                        Text("H:\(String(format: "%.1f", forecast.today.high))°   L:\(String(format:"%.1f", forecast.today.low))°")
+                        Text("H:\(forecast.today.high.ToString())°   L:\(forecast.today.low.ToString())°")
                         Text("\(forecast.address)")
                             .lineLimit(1)
                     }
@@ -35,15 +35,15 @@ struct WeatherWidget: View {
                 VStack(alignment: .trailing, spacing: 0) {
                     Image("Moon cloud fast wind large")
                     Text("\(forecast.today.conditions)")
-                        .font(.system(size: 13).weight(.regular))
-                        .padding(.trailing, 24)
+                        .font(.system(size: conditionsFontSize).weight(.regular))
+                        .padding(.trailing, valueRelativeWidth(24))
                 }
             }
             .foregroundColor(.white)
-            .padding(.bottom, 20)
-            .padding(.leading, 20)
+            .padding(.bottom, valueRelativeWidth(20))
+            .padding(.leading, valueRelativeWidth(20))
         }
-        .frame(width: 342, height: 184)
+        .frame(width: valueRelativeWidth(342), height: valueRelativeWidth(184))
         .gesture(deleteTap().exclusively(before: chooseTap()))
     }
     
@@ -53,7 +53,7 @@ struct WeatherWidget: View {
                 withAnimation {
                     forecastManager.deleteAddres(forecast.address)
                 }
-        }
+            }
     }
     
     func chooseTap() -> some Gesture {
@@ -63,6 +63,11 @@ struct WeatherWidget: View {
                 forecastManager.changeCurrentForecast(forecast.forecast)
             }
     }
+    
+    let trapezoidWidth = valueRelativeWidth(342)
+    let trapezoidHeight = valueRelativeWidth(184)
+    let temperatureFontSize = valueRelativeWidth(64)
+    let conditionsFontSize = valueRelativeWidth(13)
 }
 
 struct WeatherWidget_Previews: PreviewProvider {
