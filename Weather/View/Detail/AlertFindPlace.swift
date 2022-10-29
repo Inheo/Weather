@@ -33,7 +33,6 @@ struct AlertFindPlace: UIViewControllerRepresentable {
                 textField.placeholder = placeholder
                 textField.text = self.text
                 textField.delegate = context.coordinator
-                
             }
             
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
@@ -54,10 +53,6 @@ struct AlertFindPlace: UIViewControllerRepresentable {
                 }
             })
             
-//            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true) {
-//                isPresented = false
-//            }
-            
             guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
                 return
             }
@@ -69,8 +64,6 @@ struct AlertFindPlace: UIViewControllerRepresentable {
             root.present(alert, animated: true) {
                 isPresented = false
             }
-            
-//            UIApplication.shared.wind
         }
     }
     
