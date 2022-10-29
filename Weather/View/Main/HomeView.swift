@@ -58,7 +58,7 @@ struct HomeView: View {
                 
                 // MARK - Tab Bar
                 TabBar(action: { bottomSheetPosition.toggle() })
-                    .offset(y: bottomSheetTranslationTime * 115)
+                    .offset(y: bottomSheetTranslationTime * tabBarYOffset)
                     .frame(maxHeight: .infinity, alignment: .bottom)
                     .ignoresSafeArea()
             }
@@ -97,7 +97,7 @@ struct HomeView: View {
                 Text(attributedString)
                     .multilineTextAlignment(.center)
                 
-                Text("H:\(String(format: "%.1f", forecastManager.today.high))°   L:\(String(format: "%.1f", forecastManager.today.low))°")
+                Text("H:\(forecastManager.today.high.ToString())°   L:\(forecastManager.today.low.ToString())°")
                     .font(.title3.weight(.semibold))
                     .multilineTextAlignment(.center)
                     .opacity(1 - bottomSheetTranslationTime)
@@ -108,17 +108,18 @@ struct HomeView: View {
         .padding(.horizontal)
         .foregroundColor(.white)
         .padding(.top, 51)
-        .offset(y: -bottomSheetTranslationTime * 46)
+        .offset(y: -bottomSheetTranslationTime * weatherInformationYOffset)
     }
     
     var attributedString: AttributedString {
         // MARK: TODO change to current data
-        let temperature = String(format: "%.1f", forecastManager.today.temperature)
+        let temperature = forecastManager.today.temperature.ToString()
         let conditions = forecastManager.today.conditions
         var string = AttributedString("\(temperature)°" + (hasDragged ? " | " : "\n") + conditions)
         
         if let temp = string.range(of: "\(temperature)°") {
-            string[temp].font = .system(size: 96 - bottomSheetTranslationTime * (96 - 20),
+            let size = lerp(min: temperatureMinimumFontSize, max: temperatureFontSize, time: bottomSheetTranslationTime)
+            string[temp].font = .system(size: size,
                                         weight: hasDragged ? .semibold : .thin)
             string[temp].foregroundColor = hasDragged ? .secondary : .primary
         }
@@ -135,6 +136,12 @@ struct HomeView: View {
         
         return string
     }
+    
+    // MARK: -
+    let weatherInformationYOffset = valueRelativeHeight(46)
+    let tabBarYOffset = valueRelativeHeight(115)
+    let temperatureFontSize: CGFloat = 90
+    let temperatureMinimumFontSize: CGFloat = 20
 }
 
 struct HomeView_Previews: PreviewProvider {
