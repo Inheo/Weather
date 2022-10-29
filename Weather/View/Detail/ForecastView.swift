@@ -17,21 +17,8 @@ struct ForecastView: View {
             SegmentedControl(selection: $selection)
             ScrollView {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        if selection == 0 {
-                            ForEach(forecastManager.todayHours) { forecast in
-                                ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .hourly)
-                                    .transition(.offset(x: selection == 0 ? -430 : 430))
-                            }
-                        }
-                        else {
-                            ForEach(forecastManager.days) { forecast in
-                                ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .daily)
-                                    .transition(.offset(x: selection == 0 ? -430 : 430))
-                            }
-                        }
-                    }
-                    .padding(.vertical, BaseResolution.valueRelativeHeight(20))
+                    forecastCards
+                        .padding(.vertical, valueRelativeHeight(20))
                 }
                 .padding(.horizontal, 20)
                 
@@ -41,8 +28,8 @@ struct ForecastView: View {
         }
         .backgroundBlur(radius: 25, opaque: true)
         .background(Color.bottomSheetBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 44))
-        .innerShadow(shape: RoundedRectangle(cornerRadius: 44),
+        .clipShape(baseShape)
+        .innerShadow(shape: baseShape,
                      color: Color.bottomSheetBorderMiddle,
                      offsetY: 1,
                      blurRadius: 0,
@@ -61,7 +48,7 @@ struct ForecastView: View {
             .blendMode(.overlay)
             .background(Color.bottomSheetBorderTop)
             .frame(maxHeight: .infinity, alignment: .top)
-            .clipShape(RoundedRectangle(cornerRadius: 44))
+            .clipShape(baseShape)
     }
     
     var rectangleHold: some View {
@@ -71,6 +58,26 @@ struct ForecastView: View {
             .frame(maxHeight: .infinity, alignment: .top)
             .padding(.top, 10)
     }
+    
+    var forecastCards: some View {
+        HStack(spacing: 12) {
+            if selection == 0 {
+                ForEach(forecastManager.todayHours) { forecast in
+                    ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .hourly)
+                        .transition(.offset(x: selection == 0 ? -transitionOffset : transitionOffset))
+                }
+            }
+            else {
+                ForEach(forecastManager.days) { forecast in
+                    ForecastCard(forecast: forecastManager.convertToBaseInformation(forecast), period: .daily)
+                        .transition(.offset(x: selection == 0 ? -transitionOffset : transitionOffset))
+                }
+            }
+        }
+    }
+    
+    let transitionOffset: CGFloat = 430
+    let baseShape = RoundedRectangle(cornerRadius: 44)
 }
 
 struct ForecastView_Previews: PreviewProvider {
