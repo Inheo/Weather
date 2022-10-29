@@ -17,6 +17,8 @@
 		701502702906865B0032AE8D /* CountryForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7015026F2906865B0032AE8D /* CountryForecast.swift */; };
 		7025DB382909562E002F02F5 /* DeviceLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7025DB372909562E002F02F5 /* DeviceLocationService.swift */; };
 		702B269D290A6F56003BC11A /* AlertFindPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702B269C290A6F56003BC11A /* AlertFindPlace.swift */; };
+		705055A6290C460D00297245 /* BaseResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705055A5290C460D00297245 /* BaseResolution.swift */; };
+		705055A8290C54D500297245 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705055A7290C54D500297245 /* GlobalFunctions.swift */; };
 		708F42F929015766000AAB59 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F42F829015766000AAB59 /* WeatherApp.swift */; };
 		708F42FB29015766000AAB59 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708F42FA29015766000AAB59 /* ContentView.swift */; };
 		708F42FD29015767000AAB59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708F42FC29015767000AAB59 /* Assets.xcassets */; };
@@ -45,6 +47,8 @@
 		7015026F2906865B0032AE8D /* CountryForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryForecast.swift; sourceTree = "<group>"; };
 		7025DB372909562E002F02F5 /* DeviceLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLocationService.swift; sourceTree = "<group>"; };
 		702B269C290A6F56003BC11A /* AlertFindPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFindPlace.swift; sourceTree = "<group>"; };
+		705055A5290C460D00297245 /* BaseResolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResolution.swift; sourceTree = "<group>"; };
+		705055A7290C54D500297245 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		708F42F529015766000AAB59 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		708F42F829015766000AAB59 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		708F42FA29015766000AAB59 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 				708F42FE29015767000AAB59 /* Preview Content */,
 				7012EDA52907D14A001E6DC8 /* DataFetcher.swift */,
 				7025DB372909562E002F02F5 /* DeviceLocationService.swift */,
+				705055A5290C460D00297245 /* BaseResolution.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 			children = (
 				708F430D290163D5000AAB59 /* Extensions.swift */,
 				7012EDA12907C3E7001E6DC8 /* Shapes.swift */,
+				705055A7290C54D500297245 /* GlobalFunctions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 			files = (
 				708F432C2902EF21000AAB59 /* WeatherView.swift in Sources */,
 				7012EDA22907C3E7001E6DC8 /* Shapes.swift in Sources */,
+				705055A8290C54D500297245 /* GlobalFunctions.swift in Sources */,
 				7015026E29056A470032AE8D /* ForecastManager.swift in Sources */,
 				7012ED9E2907C386001E6DC8 /* TabBar.swift in Sources */,
 				708F42FB29015766000AAB59 /* ContentView.swift in Sources */,
@@ -296,6 +303,7 @@
 				7012EDA62907D14A001E6DC8 /* DataFetcher.swift in Sources */,
 				701502702906865B0032AE8D /* CountryForecast.swift in Sources */,
 				702B269D290A6F56003BC11A /* AlertFindPlace.swift in Sources */,
+				705055A6290C460D00297245 /* BaseResolution.swift in Sources */,
 				708F43262902891D000AAB59 /* ForecastModel.swift in Sources */,
 				7012EDA02907C3C2001E6DC8 /* InnerShadowModifier.swift in Sources */,
 				708F432A2902EB2A000AAB59 /* NavigationBar.swift in Sources */,
