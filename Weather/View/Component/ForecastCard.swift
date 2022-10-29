@@ -25,7 +25,7 @@ struct ForecastCard: View {
         ZStack {
             baseShape
                 .fill(Color.forecastCardBackground.opacity(isActive ? 1 : 0.2))
-                .frame(width: 60, height:  146)
+                .frame(width: valueRelativeWidth(60), height:  valueRelativeHeight(146))
                 .shadow(color: .black.opacity(0.25), radius: 10, x: 5, y: 4)
                 .overlay {
                     baseShape
@@ -38,31 +38,36 @@ struct ForecastCard: View {
                              offsetY: 1,
                              blendMode: .overlay)
             
-            VStack(spacing: 16) {
+            VStack(spacing: valueRelativeHeight(16)) {
                 Text(forecast.date, format: period == .hourly ? .dateTime.hour() : .dateTime.weekday())
-                    .font(.subheadline.weight(.semibold))
-                VStack(spacing: -4) {
+                    .font(.system(size: valueRelativeHeight(15)).weight(.semibold))
+                
+                VStack(spacing: valueRelativeHeight(-4)) {
                     Image("Moon cloud fast wind small")
                     Text(Int(forecast.probability), format: .percent)
-                        .font(.footnote.weight(.semibold))
+                        .font(.system(size: valueRelativeHeight(13)).weight(.semibold))
                         .foregroundColor(Color.probabilityText)
                         .opacity(forecast.probability > 0 ? 1 : 0)
                 }
-                .frame(width: 44, height: 38)
+                .frame(width: valueRelativeWidth(44), height: valueRelativeHeight(38))
                 
-                Text("\(String(format: "%.0f", forecast.temperature))°")
-                    .font(.title3.weight(.regular))
+                Text("\(forecast.temperature.ToString(zerosAfterPoint: 0))°")
+                    .font(.system(size: valueRelativeHeight(20)).weight(.regular))
                 
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 16)
-            .frame(width: 60, height:  146)
+            .frame(width: width,
+                   height: height)
         }
     }
     
     var baseShape: RoundedRectangle {
         RoundedRectangle(cornerRadius: 30)
     }
+    
+    let width = valueRelativeWidth(60)
+    let height = valueRelativeHeight(146)
 }
 
 struct ForecastCard_Previews: PreviewProvider {
