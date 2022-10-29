@@ -13,39 +13,54 @@ struct TabBar: View {
     var body: some View {
         ZStack {
             // MARK: - Arc Shape
-            Arc()
-                .fill(Color.tabBarBackground)
-                .frame(height: 88)
-                .overlay {
-                    Arc()
-                        .stroke(Color.tabBarBackground, lineWidth: 0.5)
-                }
-            
+            arc
             // MARK: - Tab Items
             HStack {
                 // MARK: Expand Button
-                Button {
-                    action()
-                } label: {
-                    Image(systemName: "mappin.and.ellipse")
-                        .frame(width: 44, height: 44)
-                }
-                
+                expandButton
                 Spacer()
-                
                 // MARK: Navigation Button
-                NavigationLink {
-                    WeatherView()
-                } label: {
-                    Image(systemName: "list.star")
-                        .frame(width: 44, height: 44)
-                }
+                navigationButton
             }
             .font(.title2)
             .foregroundColor(.white)
             .padding(EdgeInsets(top: 20, leading: 32, bottom: 24, trailing: 32))
         }
     }
+    
+    
+    var arc: some View {
+        Arc()
+            .fill(Color.tabBarBackground)
+            .frame(height: arcHeight)
+            .overlay {
+                Arc()
+                    .stroke(Color.tabBarBackground, lineWidth: 0.5)
+            }
+    }
+    
+    var expandButton: some View {
+        Button {
+            action()
+        } label: {
+            Image(systemName: "mappin.and.ellipse")
+                .frame(width: buttonBaseHeight, height: buttonBaseHeight)
+        }
+
+    }
+    
+    var navigationButton: some View {
+        NavigationLink {
+            WeatherView()
+        } label: {
+            Image(systemName: "list.star")
+                .frame(width: buttonBaseHeight, height: buttonBaseHeight)
+        }
+    }
+    
+    // MARK: -
+    let arcHeight = valueRelativeHeight(88)
+    let buttonBaseHeight = valueRelativeHeight(44)
 }
 
 struct TabBar_Previews: PreviewProvider {
