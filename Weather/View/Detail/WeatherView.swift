@@ -21,31 +21,46 @@ struct WeatherView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.background
-                .ignoresSafeArea()
-            
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 20) {
-                    ForEach(searchedCities) { forecast in
-                            WeatherWidget(forecast: forecast)
-                                .transition(AnyTransition.asymmetric(insertion: .scale, removal: .scale))
-                    }
-                }
+        GeometryReader { geometry in
+            ZStack {
+                background
+                widgets
             }
             .safeAreaInset(edge: .top) {
                 EmptyView()
-                    .frame(height: 110)
+                    .frame(height: deltaSafeAreaTopHeight + navigationHeight)
+                    .padding(.bottom, 10)
+            }
+            .overlay {
+                NavigationBar(searchText: $searchText,
+                              height: navigationHeight,
+                              addNewAddress: forecastManager.tryAddNewAddress)
+                .frame(maxHeight: .infinity, alignment: .top)
+            }
+            .navigationBarHidden(true)
+            .searchable(text: $searchText)
+        }
+    }
+    
+    var background: some View {
+        Color.background
+            .ignoresSafeArea()
+    }
+    
+    var widgets: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: spacingBetweenWidgets) {
+                ForEach(searchedCities) { forecast in
+                    WeatherWidget(forecast: forecast)
+                        .transition(AnyTransition.asymmetric(insertion: .scale, removal: .scale))
+                }
             }
         }
-        .overlay {
-            NavigationBar(searchText: $searchText,
-                          addNewAddress:  forecastManager.tryAddNewAddress(newAddress:))
-                .frame(maxHeight: .infinity, alignment: .top)
-        }
-        .navigationBarHidden(true)
-        .searchable(text: $searchText)
     }
+    
+    let spacingBetweenWidgets = valueRelativeHeight(20)
+    let deltaSafeAreaTopHeight: CGFloat = 47 - valueRelativeHeight(47)
+    let navigationHeight = valueRelativeHeight(106)
 }
 
 struct WeatherView_Previews: PreviewProvider {
